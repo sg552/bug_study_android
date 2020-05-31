@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 public class MainActivity extends AppCompatActivity {
   @Override
   public void onCreate(Bundle savedInstanceState) {
-    Log.d("main", "==  hihihi");
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
   }

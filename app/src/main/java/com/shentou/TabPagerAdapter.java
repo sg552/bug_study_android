@@ -6,17 +6,17 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-class DemoCollectionPagerAdapter extends FragmentStatePagerAdapter {
-  public DemoCollectionPagerAdapter(FragmentManager fm) {
+class TabPagerAdapter extends FragmentStatePagerAdapter {
+  public TabPagerAdapter(FragmentManager fm) {
     super(fm);
   }
 
   @Override
   public Fragment getItem(int i) {
-    Fragment fragment = new DemoObjectFragment();
+    Fragment fragment = new SingleTabFragment();
     Bundle args = new Bundle();
     // Our object is just an integer :-P
-    args.putInt(DemoObjectFragment.ARG_OBJECT, i + 1);
+    args.putInt(SingleTabFragment.ARG_OBJECT, i + 1);
     fragment.setArguments(args);
     return fragment;
   }
@@ -28,6 +28,14 @@ class DemoCollectionPagerAdapter extends FragmentStatePagerAdapter {
 
   @Override
   public CharSequence getPageTitle(int position) {
-    return "OBJECT " + (position + 1);
+    CharSequence title = "";
+    if(position == 0){
+      title = "未学习";
+    }else if (position == 1){
+      title = "已学习";
+    }else {
+      title = "";
+    }
+    return title;
   }
 }

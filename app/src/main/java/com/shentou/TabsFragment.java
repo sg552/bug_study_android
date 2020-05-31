@@ -11,14 +11,10 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
-import com.shentou.DemoCollectionPagerAdapter;
-import com.shentou.R;
 
-public class CollectionDemoFragment extends Fragment {
+public class TabsFragment extends Fragment {
 
-  // When requested, this adapter returns a DemoObjectFragment,
-  // representing an object in the collection.
-  DemoCollectionPagerAdapter demoCollectionPagerAdapter;
+  TabPagerAdapter tabPagerAdapter;
   ViewPager viewPager;
 
   @Nullable
@@ -31,9 +27,9 @@ public class CollectionDemoFragment extends Fragment {
 
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-    demoCollectionPagerAdapter = new DemoCollectionPagerAdapter(getChildFragmentManager());
+    tabPagerAdapter = new TabPagerAdapter(getChildFragmentManager());
     viewPager = view.findViewById(R.id.pager);
-    viewPager.setAdapter(demoCollectionPagerAdapter);
+    viewPager.setAdapter(tabPagerAdapter);
 
     TabLayout tabLayout = view.findViewById(R.id.tab_layout);
     tabLayout.setupWithViewPager(viewPager);
