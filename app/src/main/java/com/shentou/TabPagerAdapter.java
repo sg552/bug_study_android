@@ -13,10 +13,10 @@ class TabPagerAdapter extends FragmentStatePagerAdapter {
 
   @Override
   public Fragment getItem(int i) {
-    Fragment fragment = new SingleTabFragment();
+    Fragment fragment = new PostsTabFragment();
     Bundle args = new Bundle();
     // Our object is just an integer :-P
-    args.putInt(SingleTabFragment.ARG_OBJECT, i + 1);
+    args.putInt(PostsTabFragment.ARG_OBJECT, i + 1);
     fragment.setArguments(args);
     return fragment;
   }
