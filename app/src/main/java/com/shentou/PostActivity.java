@@ -26,7 +26,11 @@ public class PostActivity extends AppCompatActivity {
           "    <meta charset=\"utf-8\" />\n" +
           "    <meta name=\"apple-mobile-web-app-title\" content=\"\">\n" +
           "    <meta name=\"apple-mobile-web-app-capable\" content=\"yes\" />\n" +
-          "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no\"/>\n" +
+          "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=3.0, minimum-scale=1.0, user-scalable=yes\"/>\n" +
+
+          "    <style type=\"text/css\">\n" +
+          "      p { word-break: break-all }\n" +
+          "    </style>" +
           "  </head>";
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -35,9 +39,9 @@ public class PostActivity extends AppCompatActivity {
 
     webView = (WebView) findViewById(R.id.webView);
 
-    webView.getSettings().setJavaScriptEnabled(true);
-    webView.getSettings().setDomStorageEnabled(true);
     WebSettings settings = webView.getSettings();
+    settings.setJavaScriptEnabled(true);
+    settings.setDomStorageEnabled(true);
     settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL);    //排版适应屏幕
     settings.setLoadWithOverviewMode(true);                             // setUseWideViewPort方法设置webview推荐使用的窗口。setL
     settings.setUseWideViewPort(true);
@@ -45,6 +49,11 @@ public class PostActivity extends AppCompatActivity {
     settings.setJavaScriptCanOpenWindowsAutomatically(true);
     settings.setAllowFileAccess(true);
     settings.setDefaultTextEncodingName("UTF-8");
+
+    // 下面这三个使用的时候，需要HTML的内容的header   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2, user-scalable=yes">
+    settings.setSupportZoom(true);
+    settings.setBuiltInZoomControls(true);
+    settings.setDisplayZoomControls(false);
 
     webView.setWebChromeClient(new WebChromeClient());
 
