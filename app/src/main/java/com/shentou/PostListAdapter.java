@@ -1,19 +1,19 @@
 package com.shentou;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.shentou.beans.Post;
+import com.shentou.beans.PostResult;
 
 import java.util.List;
 
 public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.MyViewHolder>  {
 
-  private String[] myDataSet;
-  private List<Post> posts ;
+  private List<PostResult.Post> posts ;
 
 
   public static class MyViewHolder extends RecyclerView.ViewHolder {
@@ -25,8 +25,9 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.MyView
     }
   }
 
-  public PostListAdapter(String[] myDataSet) {
-    this.myDataSet = myDataSet;
+  public PostListAdapter(List<PostResult.Post> posts) {
+    this.posts = posts;
+    Log.i("==", this.posts.size() + "");
   }
 
   /**
@@ -45,12 +46,13 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.MyView
    */
   @Override
   public void onBindViewHolder(MyViewHolder holder, int position) {
-    holder.row.setText(this.myDataSet[position]);
+    String title = posts.get(position).title;
+    holder.row.setText(title);
   }
 
   @Override
   public int getItemCount() {
-    return myDataSet.length;
+    return posts.size();
   }
 
 }
