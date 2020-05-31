@@ -1,9 +1,12 @@
 package com.shentou;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,10 +14,22 @@ import com.shentou.beans.PostResult;
 
 import java.util.List;
 
-public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.MyViewHolder>  {
+public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.MyViewHolder> implements View.OnClickListener {
 
   private List<PostResult.Post> posts ;
+  private RecyclerView recyclerView;
 
+  public static final String TAG  = "PostListAdapter";
+
+  @Override
+  public void onClick(View v) {
+    int itemPosition = recyclerView.getChildLayoutPosition(v);
+    Log.i(TAG, "=== itemPosition: " + itemPosition);
+    Log.i(TAG, "=== id: " + posts.get(itemPosition).id);
+
+    Intent intent = new Intent(v.getContext(), PostActivity.class);
+    v.getContext().startActivity(intent);
+  }
 
   public static class MyViewHolder extends RecyclerView.ViewHolder {
     public TextView row;
@@ -25,9 +40,9 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.MyView
     }
   }
 
-  public PostListAdapter(List<PostResult.Post> posts) {
+  public PostListAdapter(List<PostResult.Post> posts, RecyclerView recyclerView) {
     this.posts = posts;
-    Log.i("==", this.posts.size() + "");
+    this.recyclerView = recyclerView;
   }
 
   /**
@@ -35,8 +50,8 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.MyView
    */
   @Override
   public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-    TextView v = (TextView) (LayoutInflater.from(parent.getContext())
-            .inflate(R.layout.one_row_post, parent, false));
+    TextView v = (TextView) (LayoutInflater.from(parent.getContext()).inflate(R.layout.one_row_post, parent, false));
+    v.setOnClickListener(this);
     MyViewHolder holder = new MyViewHolder(v);
     return holder;
   }
@@ -46,8 +61,8 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.MyView
    */
   @Override
   public void onBindViewHolder(MyViewHolder holder, int position) {
-    String title = posts.get(position).title;
-    holder.row.setText(title);
+    PostResult.Post post = posts.get(position);
+    holder.row.setText(post.id + " " + post.title);
   }
 
   @Override

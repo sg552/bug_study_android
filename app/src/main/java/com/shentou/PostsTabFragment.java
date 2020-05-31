@@ -43,7 +43,7 @@ public class PostsTabFragment extends Fragment {
     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
     myRecyclerView.setLayoutManager(layoutManager);
 
-    RecyclerView.Adapter myAdapter = new PostListAdapter(posts);
+    RecyclerView.Adapter myAdapter = new PostListAdapter(posts, myRecyclerView);
     myRecyclerView.setAdapter(myAdapter);
   }
 
@@ -51,6 +51,8 @@ public class PostsTabFragment extends Fragment {
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     Bundle args = getArguments();
     myRecyclerView = view.findViewById(R.id.my_recycler_view);
+
+
     OkHttpClient client = new OkHttpClient();
     Request request = new Request.Builder()
             .url(POSTS_URL)
