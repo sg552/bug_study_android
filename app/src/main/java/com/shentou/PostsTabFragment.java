@@ -50,12 +50,13 @@ public class PostsTabFragment extends Fragment {
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     Bundle args = getArguments();
+    int myIndex = args.getInt(PostsTabFragment.ARG_OBJECT);
     myRecyclerView = view.findViewById(R.id.my_recycler_view);
-
+    String is_studied = myIndex == 1 ? "0" : "1";
 
     OkHttpClient client = new OkHttpClient();
     Request request = new Request.Builder()
-            .url(POSTS_URL)
+            .url(POSTS_URL + "?user_id=1&is_studied="+is_studied)
             .get()
             .build();
 

@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,7 +26,8 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.MyView
     Log.i(TAG, "=== itemPosition: " + itemPosition);
     Log.i(TAG, "=== id: " + posts.get(itemPosition).id);
 
-    Intent intent = new Intent(v.getContext(), PostActivity.class);
+    Intent intent = new Intent(v.getContext(), PostDetailsActivity.class);
+    intent.putExtra("id", posts.get(itemPosition).id);
     v.getContext().startActivity(intent);
   }
 

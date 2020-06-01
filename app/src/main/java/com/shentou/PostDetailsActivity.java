@@ -2,7 +2,9 @@ package com.shentou;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -18,8 +20,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class PostActivity extends AppCompatActivity {
+public class PostDetailsActivity extends AppCompatActivity {
 
+  public static final String TAG = "PostActivity";
   WebView webView;
 
   String HTML_HEAD_CONTENT = "  <head>\n" +
@@ -57,13 +60,16 @@ public class PostActivity extends AppCompatActivity {
 
     webView.setWebChromeClient(new WebChromeClient());
 
-    showContent();
+    Intent intent = getIntent();
+    int id = intent.getIntExtra("id", 0);
+    showContent(id + "");
   }
 
-  public void showContent(){
+  public void showContent(String id){
     OkHttpClient client = new OkHttpClient();
+    String url = "http://shentou.sweetysoft.com/api/bugs/" + id;
     Request request = new Request.Builder()
-            .url("http://shentou.sweetysoft.com/api/bugs/88821")
+            .url(url)
             .get()
             .build();
 
@@ -77,6 +83,7 @@ public class PostActivity extends AppCompatActivity {
               @Override
               public void onResponse(Call call, Response response) throws IOException {
                 final String result = response.body().string();
+                Log.i(TAG, "response: " + result);
                 Gson gson = new Gson();
                 final PostDetail postDetail = gson.fromJson(result, PostDetail.class);
 
@@ -84,12 +91,22 @@ public class PostActivity extends AppCompatActivity {
 
                   @Override
                   public void run() {
-                    webView.loadData(HTML_HEAD_CONTENT + postDetail.wybug_detail, "text/html; charset=utf-8", "UTF-8");
+                    webView.loadData(HTML_HEAD_CONTENT +
+                            p(postDetail.wybug_title) +
+                            p(postDetail.wybug_author) +
+                            p(postDetail.wybug_rank_0)  +
+                            p(postDetail.wybug_level) +
+                            p(postDetail.wybug_type) +
+                            postDetail.wybug_detail +
+                            postDetail.wybug_reply +
+                            postDetail.replys, "text/html; charset=utf-8", "UTF-8")
+                    ;
                   }
                 });
               }
             });
-
-
+  }
+  public String p(String content){
+    return "<p>" + content + "</p>";
   }
 }
