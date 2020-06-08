@@ -23,7 +23,7 @@ class TabPagerAdapter extends FragmentStatePagerAdapter {
 
   @Override
   public int getCount() {
-    return 2;
+    return 3;
   }
 
   @Override
@@ -33,6 +33,8 @@ class TabPagerAdapter extends FragmentStatePagerAdapter {
       title = "未学习";
     }else if (position == 1){
       title = "已学习";
+    }else if (position == 2){
+      title = "已收藏";
     }else {
       title = "";
     }

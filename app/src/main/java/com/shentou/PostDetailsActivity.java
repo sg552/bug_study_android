@@ -39,7 +39,7 @@ public class PostDetailsActivity extends AppCompatActivity {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_post);
-
+    getSupportActionBar().hide();
     webView = (WebView) findViewById(R.id.webView);
 
     WebSettings settings = webView.getSettings();
