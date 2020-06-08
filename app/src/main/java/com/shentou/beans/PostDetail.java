@@ -16,5 +16,7 @@ public class PostDetail {
   public String wybug_detail;
   public String wybug_reply;
   public String replys;
+
+  public String comment;
 }
 
