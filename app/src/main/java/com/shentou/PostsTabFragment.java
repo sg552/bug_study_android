@@ -28,6 +28,7 @@ public class PostsTabFragment extends Fragment {
   public static final String ARG_OBJECT = "object";
   public static final String SERVER = "http://shentou.sweetysoft.com";
   public static final String POSTS_URL =  SERVER + "/api/bugs";
+  public static final String BOOKMARKS_URL = SERVER + "/api/bugs/bookmarks";
   public static final String TAG = "PostsTabFragment";
 
   @Override
@@ -52,36 +53,80 @@ public class PostsTabFragment extends Fragment {
     Bundle args = getArguments();
     int myIndex = args.getInt(PostsTabFragment.ARG_OBJECT);
     myRecyclerView = view.findViewById(R.id.my_recycler_view);
-    String is_studied = myIndex == 1 ? "0" : "1";
 
-    OkHttpClient client = new OkHttpClient();
-    Request request = new Request.Builder()
-            .url(POSTS_URL + "?user_id=1&is_studied="+is_studied)
-            .get()
-            .build();
+    Log.i(TAG, "== in onViewCreated, myIndex: " + myIndex);
+    // 分别创建第一个和第二个tab
+    if(myIndex <= 2 ){
 
-    client.newCall(request)
-            .enqueue(new Callback() {
-              @Override
-              public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-              }
+      String is_studied = myIndex == 1 ? "0" : "1";
 
-              @Override
-              public void onResponse(Call call, Response response) throws IOException {
-                final String result = response.body().string();
-                Gson gson = new Gson();
-                final PostResult thePostResult = gson.fromJson(result, PostResult.class);
+      OkHttpClient client = new OkHttpClient();
+      String url = POSTS_URL + "?user_id=1&is_studied="+is_studied;
+      Log.i(TAG, "== index = 0,1 , urL " + url);
 
-                getActivity().runOnUiThread(new Runnable() {
+      Request request = new Request.Builder()
+              .url(url)
+              .get()
+              .build();
 
-                  @Override
-                  public void run() {
-                    initPosts(thePostResult.result);
-                  }
-                });
-              }
-            });
+      client.newCall(request)
+              .enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                  e.printStackTrace();
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                  final String result = response.body().string();
+                  Gson gson = new Gson();
+                  final PostResult thePostResult = gson.fromJson(result, PostResult.class);
+
+                  getActivity().runOnUiThread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                      initPosts(thePostResult.result);
+                    }
+                  });
+                }
+              });
+    // 加载收藏
+    }else if(myIndex == 3){
+
+      OkHttpClient client = new OkHttpClient();
+      String url = BOOKMARKS_URL + "?user_id=1";
+      Log.i(TAG, "== index = 2, urL " + url);
+      Request request = new Request.Builder()
+              .url(url)
+              .get()
+              .build();
+
+      client.newCall(request)
+              .enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                  e.printStackTrace();
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                  final String result = response.body().string();
+                  Gson gson = new Gson();
+                  final PostResult thePostResult = gson.fromJson(result, PostResult.class);
+
+                  getActivity().runOnUiThread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                      initPosts(thePostResult.result);
+                    }
+                  });
+                }
+              });
+    }else {
+      // 啥也不做
+    }
 
   }
 }

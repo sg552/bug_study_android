@@ -148,6 +148,42 @@ public class PostDetailsActivity extends AppCompatActivity implements View.OnCli
   }
 
   private void updateBookmark(int id, String user_id) {
+    final PostDetailsActivity that = this;
+    Log.i(TAG, "== in updateBookmark");
+    OkHttpClient httpClient = new OkHttpClient();
+    RequestBody requestBody = new MultipartBody.Builder()
+            .setType(MultipartBody.FORM)
+            .addFormDataPart("id", String.valueOf(id))
+            .addFormDataPart("user_id", user_id)
+            .build();
+    String url = "http://shentou.sweetysoft.com/api/bugs/update_bookmark";
+
+    Log.i(TAG, "== request url: " + url);
+    Request request = new Request.Builder().
+            url(url)
+            .post(requestBody)
+            .build();
+
+    httpClient.newCall(request)
+            .enqueue(new Callback() {
+              @Override
+              public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+              }
+
+              @Override
+              public void onResponse(Call call, Response response) throws IOException {
+                String response_result = response.body().string();
+                Log.d(TAG, "== response: " + response_result);
+                runOnUiThread(new Runnable() {
+
+                  @Override
+                  public void run() {
+                    Toast.makeText(that, "成功添加到收藏", Toast.LENGTH_LONG).show();
+                  }
+                });
+              }
+            });
   }
 
   private void submitComment(int id, String user_id, String comment) {
