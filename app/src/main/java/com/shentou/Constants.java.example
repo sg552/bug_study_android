@@ -1,7 +1,7 @@
 package com.shentou;
 
 public class Constants {
-  public static final String SERVER = "http://shentou.sweetysoft.com";
+  public static final String SERVER = "http://api.yourserver.com";
   public static final String POSTS_URL =  SERVER + "/api/bugs";
   public static final String BOOKMARKS_URL = SERVER + "/api/bugs/bookmarks";
 
