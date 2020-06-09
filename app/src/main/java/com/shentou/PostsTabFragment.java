@@ -26,9 +26,7 @@ import okhttp3.Response;
 
 public class PostsTabFragment extends Fragment {
   public static final String ARG_OBJECT = "object";
-  public static final String SERVER = "http://shentou.sweetysoft.com";
-  public static final String POSTS_URL =  SERVER + "/api/bugs";
-  public static final String BOOKMARKS_URL = SERVER + "/api/bugs/bookmarks";
+
   public static final String TAG = "PostsTabFragment";
 
   @Override
@@ -61,7 +59,7 @@ public class PostsTabFragment extends Fragment {
       String is_studied = myIndex == 1 ? "0" : "1";
 
       OkHttpClient client = new OkHttpClient();
-      String url = POSTS_URL + "?user_id=1&is_studied="+is_studied;
+      String url = Constants.POSTS_URL + "?user_id=1&is_studied="+is_studied;
       Log.i(TAG, "== index = 0,1 , urL " + url);
 
       Request request = new Request.Builder()
@@ -95,7 +93,7 @@ public class PostsTabFragment extends Fragment {
     }else if(myIndex == 3){
 
       OkHttpClient client = new OkHttpClient();
-      String url = BOOKMARKS_URL + "?user_id=1";
+      String url = Constants.BOOKMARKS_URL + "?user_id=1";
       Log.i(TAG, "== index = 2, urL " + url);
       Request request = new Request.Builder()
               .url(url)

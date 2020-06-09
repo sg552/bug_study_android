@@ -1,0 +1,12 @@
+package com.shentou;
+
+public class Constants {
+  public static final String SERVER = "http://shentou.sweetysoft.com";
+  public static final String POSTS_URL =  SERVER + "/api/bugs";
+  public static final String BOOKMARKS_URL = SERVER + "/api/bugs/bookmarks";
+
+  public static final String UPDATE_COMMENT_URL = SERVER + "/api/bugs/update_comment";
+  public static final String UPDATE_BOOKMARK_URL = SERVER + "/api/bugs/update_bookmark";
+  public static final String BUG_DETAILS_URL = SERVER +  "/api/bugs";
+
+}

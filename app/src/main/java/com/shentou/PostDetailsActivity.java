@@ -81,7 +81,7 @@ public class PostDetailsActivity extends AppCompatActivity implements View.OnCli
 
   public void showContent(String id){
     OkHttpClient client = new OkHttpClient();
-    String url = "http://shentou.sweetysoft.com/api/bugs/" + id + "?user_id=" + getUserId();
+    String url = Constants.BUG_DETAILS_URL + "/" + id +"?user_id=" + getUserId();
     Request request = new Request.Builder()
             .url(url)
             .get()
@@ -156,11 +156,9 @@ public class PostDetailsActivity extends AppCompatActivity implements View.OnCli
             .addFormDataPart("id", String.valueOf(id))
             .addFormDataPart("user_id", user_id)
             .build();
-    String url = "http://shentou.sweetysoft.com/api/bugs/update_bookmark";
 
-    Log.i(TAG, "== request url: " + url);
     Request request = new Request.Builder().
-            url(url)
+            url(Constants.UPDATE_BOOKMARK_URL)
             .post(requestBody)
             .build();
 
@@ -196,11 +194,9 @@ public class PostDetailsActivity extends AppCompatActivity implements View.OnCli
             .addFormDataPart("user_id", user_id)
             .addFormDataPart("comment", comment)
             .build();
-    String url = "http://shentou.sweetysoft.com/api/bugs/update_comment";
 
-    Log.i(TAG, "== request body: " + requestBody.toString());
     Request request = new Request.Builder().
-            url(url)
+            url(Constants.UPDATE_COMMENT_URL)
             .post(requestBody)
             .build();
 
