@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -90,7 +91,7 @@ public class PostsTabFragment extends Fragment {
                 }
               });
     // 加载收藏
-    }else if(myIndex == 3){
+    }else if(myIndex == 3) {
 
       OkHttpClient client = new OkHttpClient();
       String url = Constants.BOOKMARKS_URL + "?user_id=1";
@@ -122,6 +123,17 @@ public class PostsTabFragment extends Fragment {
                   });
                 }
               });
+    }else if(myIndex == 4){
+      getActivity().runOnUiThread(new Runnable() {
+
+        @Override
+        public void run() {
+          Toast.makeText(getActivity(), "未学习和已学习的都已经刷新了～",
+                  Toast.LENGTH_SHORT).show();
+
+        }
+      });
+
     }else {
       // 啥也不做
     }
