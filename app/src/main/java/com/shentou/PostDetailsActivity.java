@@ -72,16 +72,17 @@ public class PostDetailsActivity extends AppCompatActivity implements View.OnCli
 
     Intent intent = getIntent();
     int id = intent.getIntExtra("id", 0);
-    showContent(id + "");
+    showContent(id + "", getUserId());
 
     findViewById(R.id.submit).setOnClickListener(this);
     findViewById(R.id.bookmark).setOnClickListener(this);
-
+    findViewById(R.id.next_post).setOnClickListener(this);
+    findViewById(R.id.previous_post).setOnClickListener(this);
   }
 
-  public void showContent(String id){
+  public void showContent(String id, String user_id){
     OkHttpClient client = new OkHttpClient();
-    String url = Constants.BUG_DETAILS_URL + "/" + id +"?user_id=" + getUserId();
+    String url = Constants.BUG_DETAILS_URL + "/" + id +"?user_id=" + user_id;
     Request request = new Request.Builder()
             .url(url)
             .get()
@@ -134,6 +135,7 @@ public class PostDetailsActivity extends AppCompatActivity implements View.OnCli
     int id = intent.getIntExtra("id", 0);
     String user_id = getUserId();
 
+    Log.i(TAG, "== current post id : " + id);
     switch(v.getId()){
       case R.id.submit:
         String comment = ((EditText)findViewById(R.id.comment)).getText().toString();
@@ -141,6 +143,12 @@ public class PostDetailsActivity extends AppCompatActivity implements View.OnCli
         break;
       case R.id.bookmark:
         updateBookmark(id, user_id);
+        break;
+      case R.id.next_post:
+        showNextPost(id, user_id);
+        break;
+      case R.id.previous_post:
+        showPreviousPost(id, user_id);
         break;
       default:
         break;
@@ -221,6 +229,21 @@ public class PostDetailsActivity extends AppCompatActivity implements View.OnCli
                 });
               }
             });
+  }
+  private void showNextPost(int id, String user_id){
+    Log.d(TAG, "== in showNextPost");
+    finish();
+    Intent intent = new Intent(this, PostDetailsActivity.class);
+    intent.putExtra("id", id - 1);
+    startActivity(intent);
+  }
+
+  private void showPreviousPost(int id, String user_id){
+    Log.d(TAG, "== in showPreviousPost");
+    finish();
+    Intent intent = new Intent(this, PostDetailsActivity.class);
+    intent.putExtra("id", id + 1);
+    startActivity(intent);
   }
   
 }

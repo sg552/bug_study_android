@@ -23,6 +23,14 @@
         android:orientation="horizontal"
         >
         <Button
+            android:id="@+id/previous_post"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="上一个">
+        </Button>
+
+        <Button
             android:id="@+id/submit"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -35,6 +43,13 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="收藏">
+        </Button>
+        <Button
+            android:id="@+id/next_post"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="下一个">
         </Button>
 
     </LinearLayout>
