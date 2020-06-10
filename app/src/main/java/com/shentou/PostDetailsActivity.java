@@ -2,13 +2,17 @@ package com.shentou;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -34,6 +38,29 @@ public class PostDetailsActivity extends AppCompatActivity implements View.OnCli
 
   public static final String TAG = "PostDetailsActivity";
   WebView webView;
+  // somewhere on your code...
+  WebViewClient myWebClient = new WebViewClient(){
+    // you tell the webclient you want to catch when a url is about to load
+    @Override
+    public boolean shouldOverrideUrlLoading(WebView  view, String  url){
+      return true;
+    }
+    // here you execute an action when the URL you want is about to load
+    @Override
+    public void onLoadResource(WebView  view, String  url){
+      Log.i(TAG, "== in onLoadResource, url: " + url);
+      if( url.matches(".*(jpg|png|jpeg|gif|bmp)$") ){
+        // 在新的activity中打开
+//        openImage(url);
+      }
+    }
+  };
+
+  public void openImage(String image_url){
+    Intent intent = new Intent(Intent.ACTION_VIEW);
+    intent.setDataAndType(Uri.parse(image_url), "image/*"); // The Mime type can actually be determined from the file
+    startActivity(intent);
+  }
 
   String HTML_HEAD_CONTENT = "  <head>\n" +
           "    <meta charset=\"utf-8\" />\n" +
@@ -44,7 +71,10 @@ public class PostDetailsActivity extends AppCompatActivity implements View.OnCli
           "    <style type=\"text/css\">\n" +
           "      p { word-break: break-all }\n" +
           "    </style>" +
+          "    <script> " +
+          "    </script>" +
           "  </head>";
+  @SuppressLint("JavascriptInterface")
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -63,12 +93,17 @@ public class PostDetailsActivity extends AppCompatActivity implements View.OnCli
     settings.setAllowFileAccess(true);
     settings.setDefaultTextEncodingName("UTF-8");
 
+    JsInterface jsInterface = new JsInterface(this);
+    webView.getSettings().setJavaScriptEnabled(true);
+    webView.addJavascriptInterface(jsInterface, "android");
+
     // 下面这三个使用的时候，需要HTML的内容的header   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2, user-scalable=yes">
     settings.setSupportZoom(true);
     settings.setBuiltInZoomControls(true);
     settings.setDisplayZoomControls(false);
 
-    webView.setWebChromeClient(new WebChromeClient());
+//    webView.setWebChromeClient(myWebClient);
+    webView.setWebViewClient(myWebClient);
 
     Intent intent = getIntent();
     int id = intent.getIntExtra("id", 0);
