@@ -4,16 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.webkit.JavascriptInterface;
-import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -33,7 +31,9 @@ import okhttp3.Response;
 public class PostDetailsActivity extends AppCompatActivity implements View.OnClickListener {
 
   public String getUserId(){
-    return 1 + "";
+    SharedPreferences settings = getSharedPreferences(Constants.KEY_USER_ID, 0);
+    int userId = settings.getInt(Constants.KEY_USER_ID, 0);
+    return userId + "";
   }
 
   public static final String TAG = "PostDetailsActivity";
@@ -117,7 +117,7 @@ public class PostDetailsActivity extends AppCompatActivity implements View.OnCli
 
   public void showContent(String id, String user_id){
     OkHttpClient client = new OkHttpClient();
-    String url = Constants.BUG_DETAILS_URL + "/" + id +"?user_id=" + user_id;
+    String url = Constants.URL_BUG_DETAILS + "/" + id +"?user_id=" + user_id;
     Request request = new Request.Builder()
             .url(url)
             .get()
@@ -180,10 +180,10 @@ public class PostDetailsActivity extends AppCompatActivity implements View.OnCli
         updateBookmark(id, user_id);
         break;
       case R.id.next_post:
-        showNextPost(id, user_id);
+        showNextPost(id);
         break;
       case R.id.previous_post:
-        showPreviousPost(id, user_id);
+        showPreviousPost(id);
         break;
       default:
         break;
@@ -201,7 +201,7 @@ public class PostDetailsActivity extends AppCompatActivity implements View.OnCli
             .build();
 
     Request request = new Request.Builder().
-            url(Constants.UPDATE_BOOKMARK_URL)
+            url(Constants.URL_UPDATE_BOOKMARK)
             .post(requestBody)
             .build();
 
@@ -239,7 +239,7 @@ public class PostDetailsActivity extends AppCompatActivity implements View.OnCli
             .build();
 
     Request request = new Request.Builder().
-            url(Constants.UPDATE_COMMENT_URL)
+            url(Constants.URL_UPDATE_COMMENT)
             .post(requestBody)
             .build();
 
@@ -265,7 +265,7 @@ public class PostDetailsActivity extends AppCompatActivity implements View.OnCli
               }
             });
   }
-  private void showNextPost(int id, String user_id){
+  private void showNextPost(int id){
     Log.d(TAG, "== in showNextPost");
     finish();
     Intent intent = new Intent(this, PostDetailsActivity.class);
@@ -273,7 +273,7 @@ public class PostDetailsActivity extends AppCompatActivity implements View.OnCli
     startActivity(intent);
   }
 
-  private void showPreviousPost(int id, String user_id){
+  private void showPreviousPost(int id){
     Log.d(TAG, "== in showPreviousPost");
     finish();
     Intent intent = new Intent(this, PostDetailsActivity.class);

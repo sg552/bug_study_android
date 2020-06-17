@@ -27,18 +27,23 @@ public class MainActivity extends AppCompatActivity {
   }
 
   public boolean isNotLoggedIn(){
-    SharedPreferences settings = getSharedPreferences(Constants.KEY_USER_ID, 0);
-    int userId = settings.getInt(Constants.KEY_USER_ID, 0);
-    return userId == 0 ;
+    return getUserId() == 0 ;
   }
 
   public void openLoginPage(){
     Intent intent = new Intent(this, LoginActivity.class);
     startActivity(intent);
+    finish();
   }
 
   public void loadView(Bundle bundle){
     setContentView(R.layout.activity_main);
     getSupportActionBar().hide();
+  }
+
+  public int getUserId(){
+    SharedPreferences settings = getSharedPreferences(Constants.KEY_USER_ID, 0);
+    int userId = settings.getInt(Constants.KEY_USER_ID, 0);
+    return userId;
   }
 }

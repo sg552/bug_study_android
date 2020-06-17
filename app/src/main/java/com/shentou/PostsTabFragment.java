@@ -1,5 +1,6 @@
 package com.shentou;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -60,7 +61,7 @@ public class PostsTabFragment extends Fragment {
       String is_studied = myIndex == 1 ? "0" : "1";
 
       OkHttpClient client = new OkHttpClient();
-      String url = Constants.POSTS_URL + "?user_id=1&is_studied="+is_studied;
+      String url = Constants.URL_POSTS + "?user_id=" + getUserId() + "&is_studied="+is_studied;
       Log.i(TAG, "== index = 0,1 , urL " + url);
 
       Request request = new Request.Builder()
@@ -94,7 +95,7 @@ public class PostsTabFragment extends Fragment {
     }else if(myIndex == 3) {
 
       OkHttpClient client = new OkHttpClient();
-      String url = Constants.BOOKMARKS_URL + "?user_id=1";
+      String url = Constants.URL_BOOKMARKS + "?user_id=" + getUserId();
       Log.i(TAG, "== index = 2, urL " + url);
       Request request = new Request.Builder()
               .url(url)
@@ -138,5 +139,11 @@ public class PostsTabFragment extends Fragment {
       // 啥也不做
     }
 
+  }
+
+  public int getUserId(){
+    SharedPreferences settings = getActivity().getSharedPreferences(Constants.KEY_USER_ID, 0);
+    int userId = settings.getInt(Constants.KEY_USER_ID, 0);
+    return userId;
   }
 }
